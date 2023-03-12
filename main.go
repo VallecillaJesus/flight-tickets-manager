@@ -97,6 +97,45 @@ func main() {
 
 		fmt.Println(t.GetTicketsAmountByTimeRange(startTime, endTime))
 	case 2: 
-		fmt.Println(t.GetTicketsAverageByDestination("china"))
+		prompt = promptui.Prompt{
+			Label: "Destination",
+		}
+		destination, err := prompt.Run()
+
+		if err != nil {
+			panic(err)
+		}
+		prompt = promptui.Prompt{
+			Label: "Start time",
+		}
+		st, err := prompt.Run()
+
+		if err != nil {
+			panic(err)
+		}
+
+		prompt = promptui.Prompt{
+			Label: "End time",
+		}
+		et, err := prompt.Run()
+
+		if err != nil {
+			panic(err)
+		}
+
+		startTime, err := time.Parse("15:04",st)
+
+		if err != nil {
+			panic(err)
+		}
+
+		endTime, err := time.Parse("15:04",et)
+
+		if err != nil {
+			panic(err)
+		}
+
+
+		fmt.Println(t.GetTicketsAverageByDestinationAndTimeRange(destination, startTime, endTime))
 	}
 }

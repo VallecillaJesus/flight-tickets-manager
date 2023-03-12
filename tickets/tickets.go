@@ -1,5 +1,5 @@
 // Package tickets is a simple package in charge of managing
-// and defining all the queries related to flight tickets, besides 
+// and defining all the queries related to flight tickets, besides
 // the definition of needed structs and types.
 package tickets
 
@@ -13,28 +13,28 @@ import (
 //
 // Good csv file row content positions order example:
 //
-// 		content: 1,Steve Musk,stevemusk@etsy.com,Colombia,20:44,550
-// 		positions: 
-// 			[0]id = 1
-// 			[1]name = Steve Musk
-// 			[2]email = stevemusk@etsy.com
-// 			[3]destination = Colombia
-//			[4]flightTime = 20:44
-// 			[5]price = 550
+//	content: 1,Steve Musk,stevemusk@etsy.com,Colombia,20:44,550
+//	positions:
+//		[0]id = 1
+//		[1]name = Steve Musk
+//		[2]email = stevemusk@etsy.com
+//		[3]destination = Colombia
+//		[4]flightTime = 20:44
+//		[5]price = 550
 type ticket struct {
-	id string 				// id is the flight ticket id.
-	name string 			// name is the ticket passanger name.
-	email string 			// email is the ticket passanger email.
-	destination string 		// destination is the flight ticket destination.
-	flightTime time.Time	// flightTime is the time of the flight.
-	price float64 			// price is the ticket price.
+	id          string    // id is the flight ticket id.
+	name        string    // name is the ticket passanger name.
+	email       string    // email is the ticket passanger email.
+	destination string    // destination is the flight ticket destination.
+	flightTime  time.Time // flightTime is the time of the flight.
+	price       float64   // price is the ticket price.
 }
 
 // Tickets represents an slice containing all ticket structs.
 // This is use to manipulate and query tickets struct data.
 type Tickets []ticket
 
-// GetTicketsAmountByDestination counts and returns the amount 
+// GetTicketsAmountByDestination counts and returns the amount
 // of flight tickets going to an specific destination.
 func (t Tickets) GetTicketsAmountByDestination(destination string) int {
 	var amount int
@@ -46,8 +46,8 @@ func (t Tickets) GetTicketsAmountByDestination(destination string) int {
 	return amount
 }
 
-// GetTicketsAmountByTimeRange counts and returns the number of 
-// tickets which flightTime attribute is between the range of 
+// GetTicketsAmountByTimeRange counts and returns the number of
+// tickets which flightTime attribute is between the range of
 // the given start time and end time.
 func (t Tickets) GetTicketsAmountByTimeRange(startTime time.Time, endTime time.Time) int {
 	var amount int
@@ -59,12 +59,16 @@ func (t Tickets) GetTicketsAmountByTimeRange(startTime time.Time, endTime time.T
 	return amount
 }
 
-func (t Tickets) GetTicketsAverageByDestination(destination string) float64 {
-	var amount float64
-	for _, ticket := range t {
-		if strings.ToLower(destination) == strings.ToLower(ticket.destination) {
-			amount++
-		}
-	}
-	return amount / float64(len(t))
+// GetTicketsAverageByDestinationAndTimeRange calculates the amount of
+// tickets going to an specific destination in a time range.
+// 
+// It returns the amount of tickets in a time range divided by the amount 
+// of tickets going to a destination in the same time range.
+// 
+// 		average = ticketsAmountByDestinationAndTimeRange / 
+// 				  ticketsAmountByTimeRange   
+func (t Tickets) GetTicketsAverageByDestinationAndTimeRange(destination string, startTime time.Time, endTime time.Time) float64 {
+	ticketsAmountByDestination := t.GetTicketsAmountByDestination(destination)
+	ticketsAmountByTimeRange := t.GetTicketsAmountByTimeRange(startTime, endTime)
+	return float64(ticketsAmountByDestination) / float64(ticketsAmountByTimeRange)
 }
