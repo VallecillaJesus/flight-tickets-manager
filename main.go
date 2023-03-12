@@ -136,6 +136,6 @@ func main() {
 		}
 
 
-		fmt.Println(t.GetTicketsAverageByDestinationAndTimeRange(destination, startTime, endTime))
+		fmt.Println(t.GetTicketsPercentageByDestinationAndTimeRange(destination, startTime, endTime))
 	}
 }

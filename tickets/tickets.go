@@ -59,16 +59,16 @@ func (t Tickets) GetTicketsAmountByTimeRange(startTime time.Time, endTime time.T
 	return amount
 }
 
-// GetTicketsAverageByDestinationAndTimeRange calculates the amount of
+// GetTicketsAverageByDestinationAndTimeRange calculates the percentage of
 // tickets going to an specific destination in a time range.
 // 
-// It returns the amount of tickets in a time range divided by the amount 
-// of tickets going to a destination in the same time range.
+// It returns the amount of tickets in a time range multiplied by 100 and
+// divided by the amount of tickets going to a destination in the same time range.
 // 
-// 		average = ticketsAmountByDestinationAndTimeRange / 
+// 		percentage = ticketsAmountByDestinationAndTimeRange * 100 /
 // 				  ticketsAmountByTimeRange   
-func (t Tickets) GetTicketsAverageByDestinationAndTimeRange(destination string, startTime time.Time, endTime time.Time) float64 {
+func (t Tickets) GetTicketsPercentageByDestinationAndTimeRange(destination string, startTime time.Time, endTime time.Time) float64 {
 	ticketsAmountByDestination := t.GetTicketsAmountByDestination(destination)
 	ticketsAmountByTimeRange := t.GetTicketsAmountByTimeRange(startTime, endTime)
-	return float64(ticketsAmountByDestination) / float64(ticketsAmountByTimeRange)
+	return float64(ticketsAmountByDestination * 100) / float64(ticketsAmountByTimeRange)
 }
