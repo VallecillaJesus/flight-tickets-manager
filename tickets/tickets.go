@@ -1,3 +1,6 @@
+// Package tickets is a simple package in charge of managing
+// and defining all the actions related to flight tickets, besides 
+// the definition of needed structs and types.
 package tickets
 
 import (
@@ -36,8 +39,8 @@ type ticket struct {
 // This is use to manipulate and query tickets struct data.
 type Tickets []ticket
 
-// GetTicketsAmountByDestination returns the amount of
-// flight tickets going to an specific destination.
+// GetTicketsAmountByDestination counts and returns the amount 
+// of flight tickets going to an specific destination.
 func (t Tickets) GetTicketsAmountByDestination(destination string) int {
 	var amount int
 	for _, ticket := range t {
