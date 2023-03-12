@@ -11,28 +11,23 @@ import (
 // ticket represents every flight ticket found in the external
 // csv file that match with the struct model attributes order.
 //
-// Example:
+// Good csv file row content positions order example:
 //
-// 		Good csv file row content order should be:
-// 		1,Steve Musk,stevemusk@etsy.com,Colombia,20:44,550
+// 		content: 1,Steve Musk,stevemusk@etsy.com,Colombia,20:44,550
+// 		positions: 
+// 			[0]id = 1
+// 			[1]name = Steve Musk
+// 			[2]email = stevemusk@etsy.com
+// 			[3]destination = Colombia
+//			[4]flightTime = 20:44
+// 			[5]price = 550
 type ticket struct {
-	// id is the flight ticket id -> [0].
-	id string
-
-	// name is the ticket passanger name -> [1].
-	name string
-
-	// email is the ticket passanger email -> [2].
-	email string
-
-	// destination is the flight ticket destination -> [3].
-	destination string
-
-	// flightTime is the time of the flight -> [4].
-	flightTime time.Time
-
-	// price is the ticket price -> [5].
-	price float64
+	id string 				// id is the flight ticket id.
+	name string 			// name is the ticket passanger name.
+	email string 			// email is the ticket passanger email.
+	destination string 		// destination is the flight ticket destination.
+	flightTime time.Time	// flightTime is the time of the flight.
+	price float64 			// price is the ticket price.
 }
 
 // Tickets represents an slice containing all ticket structs.
