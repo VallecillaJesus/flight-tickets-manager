@@ -5,13 +5,12 @@ import (
 	"time"
 )
 
-
 // ticket represents every flight ticket found in the external
 // csv file that match with the struct model attributes order.
-//  
+//
 // Example:
-// 
-// good csv file row content order should be: 
+//
+// good csv file row content order should be:
 // 1,Steve Musk,stevemusk@etsy.com,Colombia,20:44,550
 type ticket struct {
 	// id is the flight ticket id -> [0].
@@ -21,7 +20,7 @@ type ticket struct {
 	name string
 
 	// email is the ticket passanger email -> [2].
-	email string 
+	email string
 
 	// destination is the flight ticket destination -> [3].
 	destination string
@@ -37,10 +36,10 @@ type ticket struct {
 // This is use to manipulate and query tickets struct data.
 type Tickets []ticket
 
-// GetTicketsAmountByDestination calculates the amount of flight tickets
-// going to a specfic destination.
+// GetTicketsAmountByDestination returns the amount of
+// flight tickets going to an specific destination
 func (t Tickets) GetTicketsAmountByDestination(destination string) int {
-	var amount int	
+	var amount int
 	for _, ticket := range t {
 		if strings.ToLower(destination) == strings.ToLower(ticket.destination) {
 			amount++
@@ -68,4 +67,3 @@ func (t Tickets) GetTicketsAverageByDestination(destination string) float64 {
 	}
 	return amount / float64(len(t))
 }
-
