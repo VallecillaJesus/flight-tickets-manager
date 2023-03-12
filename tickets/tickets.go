@@ -1,5 +1,5 @@
 // Package tickets is a simple package in charge of managing
-// and defining all the actions related to flight tickets, besides 
+// and defining all the queries related to flight tickets, besides 
 // the definition of needed structs and types.
 package tickets
 
