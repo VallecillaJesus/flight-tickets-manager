@@ -8,9 +8,22 @@ import (
 	"time"
 )
 
+// ParseToFlightTime parses the given time string to the default
+// flight accepted time layout, this is used to parse a time in 
+// string to a Time instance.
+// 
+// The given time string is parsed using "15:04" time layout.
+// Good time string should be "hours:minutes", example "10:30"
+func ParseToFlightTime(t string) time.Time {
+	parsedTime, err := time.Parse("15:04", t)
+	if err != nil {
+		panic(err)
+	}
+	return parsedTime
+}
 
 // ReadTickets reads the specified csv file path and transform the each of the rows in
-func ReadTickets (path string) (Tickets, error) {
+func ReadTickets(path string) (Tickets, error) {
 	rawData, err := os.ReadFile(path)
 
 	if err != nil {
