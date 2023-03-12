@@ -37,7 +37,7 @@ type ticket struct {
 type Tickets []ticket
 
 // GetTicketsAmountByDestination returns the amount of
-// flight tickets going to an specific destination
+// flight tickets going to an specific destination.
 func (t Tickets) GetTicketsAmountByDestination(destination string) int {
 	var amount int
 	for _, ticket := range t {
@@ -48,6 +48,9 @@ func (t Tickets) GetTicketsAmountByDestination(destination string) int {
 	return amount
 }
 
+// GetTicketsAmountByTimeRange counts and returns the number of 
+// tickets which flightTime attribute is between the range of 
+// the given start time and end time.
 func (t Tickets) GetTicketsAmountByTimeRange(startTime time.Time, endTime time.Time) int {
 	var amount int
 	for _, ticket := range t {
