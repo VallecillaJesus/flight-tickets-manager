@@ -10,8 +10,8 @@ import (
 //
 // Example:
 //
-// good csv file row content order should be:
-// 1,Steve Musk,stevemusk@etsy.com,Colombia,20:44,550
+// 		Good csv file row content order should be:
+// 		1,Steve Musk,stevemusk@etsy.com,Colombia,20:44,550
 type ticket struct {
 	// id is the flight ticket id -> [0].
 	id string
