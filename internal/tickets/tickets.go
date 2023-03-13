@@ -11,29 +11,6 @@ import (
 	"strconv"
 )
 
-const flightTimeLayout = "15:04"
-
-// ParseToFlightTime parses the given time string to the default
-// flight accepted time layout, this is used to parse a time in 
-// string to a Time instance.
-// 
-// The given time string is parsed using "15:04" time layout.
-// Good time string should be "hours:minutes", example "10:30"
-func ParseToFlightTime(t string) time.Time {
-	parsedTime, err := time.Parse(flightTimeLayout, strings.TrimSpace(t))
-	if err != nil {
-		panic(err)
-	}
-	return parsedTime
-}
-
-var (
-	EarlyMorning 	= []time.Time{ParseToFlightTime("00:00"), ParseToFlightTime("06:59")}
-	Morning 		= []time.Time{ParseToFlightTime("07:00"), ParseToFlightTime("12:59")}
-	Afternoon 		= []time.Time{ParseToFlightTime("13:00"), ParseToFlightTime("19:59")}
-	Evening 		= []time.Time{ParseToFlightTime("20:00"), ParseToFlightTime("23:59")}
-)
-
 // ticket represents every flight ticket found in the external
 // csv file that match with the struct model attributes order.
 //
@@ -56,9 +33,35 @@ type ticket struct {
 	price       float64   // price is the ticket price.
 }
 
+type Period [2]time.Time
+
 // Tickets represents an slice containing all ticket structs.
 // This is use to manipulate and query tickets struct data.
 type Tickets []ticket
+
+const flightTimeLayout = "15:04"
+
+// ParseToFlightTime parses the given time string to the default
+// flight accepted time layout, this is used to parse a time in 
+// string to a Time instance.
+// 
+// The given time string is parsed using "15:04" time layout.
+// Good time string should be "hours:minutes", example "10:30"
+func ParseToFlightTime(t string) time.Time {
+	parsedTime, err := time.Parse(flightTimeLayout, strings.TrimSpace(t))
+	if err != nil {
+		panic(err)
+	}
+	return parsedTime
+}
+
+var (
+	EarlyMorning 	= Period{ParseToFlightTime("00:00"), ParseToFlightTime("06:59")}
+	Morning 		= Period{ParseToFlightTime("07:00"), ParseToFlightTime("12:59")}
+	Afternoon 		= Period{ParseToFlightTime("13:00"), ParseToFlightTime("19:59")}
+	Evening 		= Period{ParseToFlightTime("20:00"), ParseToFlightTime("23:59")}
+)
+
 
 // GetTicketsAmountByDestination counts and returns the amount
 // of flight tickets going to an specific destination.
@@ -70,6 +73,13 @@ func (t Tickets) GetTicketsAmountByDestination(destination string) int {
 		}
 	}
 	return amount
+}
+
+func (t Tickets) GetTicketsAverageByPeriods() int {
+	return	(t.GetTicketsAmountByPeriod(EarlyMorning) +
+			t.GetTicketsAmountByPeriod(Morning) +
+			t.GetTicketsAmountByPeriod(Afternoon) +
+			t.GetTicketsAmountByPeriod(Evening) ) / 4
 }
 
 // GetTicketsAmountByTimeRange counts and returns the number of
@@ -93,10 +103,15 @@ func (t Tickets) GetTicketsAmountByTimeRange(startTime time.Time, endTime time.T
 // 
 // 		percentage = ticketsAmountByDestinationAndTimeRange * 100 /
 // 				  ticketsAmountByTimeRange   
+
 func (t Tickets) GetTicketsPercentageByDestinationAndTimeRange(destination string, startTime time.Time, endTime time.Time) float64 {
 	ticketsAmountByDestination := t.GetTicketsAmountByDestination(destination)
 	ticketsAmountByTimeRange := t.GetTicketsAmountByTimeRange(startTime, endTime)
 	return float64(ticketsAmountByDestination * 100) / float64(ticketsAmountByTimeRange)
+}
+
+func (t Tickets) GetTicketsAmountByPeriod(p Period) int {
+	return t.GetTicketsAmountByTimeRange(p[0], p[1])
 }
 
 // ReadTickets reads the specified csv file path and transform

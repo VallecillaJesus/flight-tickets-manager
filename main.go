@@ -1,9 +1,10 @@
 package main
 
 import (
+	"challenge/internal/tickets"
 	"fmt"
 	"time"
-	"challenge/internal/tickets"
+
 	"github.com/briandowns/spinner"
 	"github.com/manifoldco/promptui"
 )
@@ -42,7 +43,9 @@ func main() {
 		Items: []string{
 			"Amount of tickets by destination", 
 			"Amount of tickets by time range",
-			"Average of tickets by destination", 
+			"Amount of tickets by period",
+			"Percentage of tickets by destination and time range",
+			"Average of tickets by periods",
 		},
 	}
 
@@ -54,6 +57,7 @@ func main() {
 
 	switch itemIndex {
 	case 0: 
+
 		prompt = promptui.Prompt{
 			Label: "Destination",
 		}
@@ -87,7 +91,31 @@ func main() {
 		endTime := tickets.ParseToFlightTime(et)
 
 		fmt.Println(t.GetTicketsAmountByTimeRange(startTime, endTime))
-	case 2: 
+	case 2:
+		selector = promptui.Select{
+			Label: "Select the period",
+			Items: []string{
+				"Early morning", 
+				"Morning",
+				"Afternoon",
+				"Evening", 
+			},
+		}
+
+		itemIndex, _, err := selector.Run()
+
+		if err != nil {
+			panic(err)
+		}
+
+		switch itemIndex{
+			case 0: fmt.Println(t.GetTicketsAmountByPeriod(tickets.EarlyMorning))
+			case 1: fmt.Println(t.GetTicketsAmountByPeriod(tickets.Morning))
+			case 2: fmt.Println(t.GetTicketsAmountByPeriod(tickets.Afternoon))
+			case 3: fmt.Println(t.GetTicketsAmountByPeriod(tickets.Evening))
+		}
+
+	case 3: 
 		prompt = promptui.Prompt{
 			Label: "Destination",
 		}
@@ -96,6 +124,7 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
+
 		prompt = promptui.Prompt{
 			Label: "Start time",
 		}
@@ -126,7 +155,9 @@ func main() {
 			panic(err)
 		}
 
-
 		fmt.Println(t.GetTicketsPercentageByDestinationAndTimeRange(destination, startTime, endTime))
+
+	case 4:
+		fmt.Println(t.GetTicketsAverageByPeriods())
 	}
 }
