@@ -43,5 +43,5 @@ jobs:
     - name: 🧪 Run golint
       run: golint ./...
 
-    - name: 🧪 Test
+    - name: 🧪 Run test
       run: go test -race -vet=off ./...
