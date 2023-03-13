@@ -68,7 +68,7 @@ var (
 func (t Tickets) GetTicketsAmountByDestination(destination string) int {
 	var amount int
 	for _, ticket := range t {
-		if strings.ToLower(destination) == strings.ToLower(ticket.destination) {
+		if strings.EqualFold(destination, ticket.destination) {
 			amount++
 		}
 	}
