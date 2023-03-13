@@ -6,6 +6,32 @@ package tickets
 import (
 	"strings"
 	"time"
+	"log"
+	"os"
+	"strconv"
+)
+
+const flightTimeLayout = "15:04"
+
+// ParseToFlightTime parses the given time string to the default
+// flight accepted time layout, this is used to parse a time in 
+// string to a Time instance.
+// 
+// The given time string is parsed using "15:04" time layout.
+// Good time string should be "hours:minutes", example "10:30"
+func ParseToFlightTime(t string) time.Time {
+	parsedTime, err := time.Parse(flightTimeLayout, strings.TrimSpace(t))
+	if err != nil {
+		panic(err)
+	}
+	return parsedTime
+}
+
+var (
+	EarlyMorning 	= []time.Time{ParseToFlightTime("00:00"), ParseToFlightTime("06:59")}
+	Morning 		= []time.Time{ParseToFlightTime("07:00"), ParseToFlightTime("12:59")}
+	Afternoon 		= []time.Time{ParseToFlightTime("13:00"), ParseToFlightTime("19:59")}
+	Evening 		= []time.Time{ParseToFlightTime("20:00"), ParseToFlightTime("23:59")}
 )
 
 // ticket represents every flight ticket found in the external
@@ -71,4 +97,49 @@ func (t Tickets) GetTicketsPercentageByDestinationAndTimeRange(destination strin
 	ticketsAmountByDestination := t.GetTicketsAmountByDestination(destination)
 	ticketsAmountByTimeRange := t.GetTicketsAmountByTimeRange(startTime, endTime)
 	return float64(ticketsAmountByDestination * 100) / float64(ticketsAmountByTimeRange)
+}
+
+// ReadTickets reads the specified csv file path and transform
+// each of the rows.
+// Good csv file row content positions order example:
+//
+//	content: 1,Steve Musk,stevemusk@etsy.com,Colombia,20:44,550
+//	positions:
+//		[0]id = 1
+//		[1]name = Steve Musk
+//		[2]email = stevemusk@etsy.com
+//		[3]destination = Colombia
+//		[4]flightTime = 20:44
+//		[5]price = 550
+func ReadTickets(path string) (Tickets, error) {
+	rawData, err := os.ReadFile(path)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var tickets Tickets
+
+	data := strings.Split(strings.TrimSpace(string(rawData)), "\n")
+
+	for _, row := range data {
+
+		content := strings.Split(row, ",")	
+
+		parsedFlightPrice, err := strconv.ParseFloat(content[5], 64)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		tickets = append(tickets, ticket{ 
+			id: content[0],
+			name: content[1],
+			email: content[2],
+			destination: content[3],
+			flightTime: ParseToFlightTime(content[4]),
+			price: parsedFlightPrice,
+		})
+	}
+	return tickets, nil
 }

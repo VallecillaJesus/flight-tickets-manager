@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"time"
-	"challenge/tickets"
+	"challenge/internal/tickets"
 	"github.com/briandowns/spinner"
 	"github.com/manifoldco/promptui"
 )
@@ -73,27 +73,18 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-
+		
 		prompt = promptui.Prompt{
 			Label: "End time",
 		}
 		et, err := prompt.Run()
-
+		
 		if err != nil {
 			panic(err)
 		}
 
-		startTime, err := time.Parse("15:04",st)
-
-		if err != nil {
-			panic(err)
-		}
-
-		endTime, err := time.Parse("15:04",et)
-
-		if err != nil {
-			panic(err)
-		}
+		startTime := tickets.ParseToFlightTime(st)
+		endTime := tickets.ParseToFlightTime(et)
 
 		fmt.Println(t.GetTicketsAmountByTimeRange(startTime, endTime))
 	case 2: 
