@@ -115,13 +115,15 @@ func (t Tickets) GetTicketsAmountByTimeRange(startTime time.Time, endTime time.T
 // 
 // 		percentage = ticketsAmountByDestinationAndTimeRange * 100 /
 // 				  ticketsAmountByTimeRange   
-
 func (t Tickets) GetTicketsPercentageByDestinationAndTimeRange(destination string, startTime time.Time, endTime time.Time) float64 {
 	ticketsAmountByDestination := t.GetTicketsAmountByDestination(destination)
 	ticketsAmountByTimeRange := t.GetTicketsAmountByTimeRange(startTime, endTime)
 	return float64(ticketsAmountByDestination * 100) / float64(ticketsAmountByTimeRange)
 }
 
+// GetTicketsAmountByPeriod returns the amount of tickets given a `Period`.
+// This get the `Period` start time (index[0]) and end time (index[1]), 
+// then it returns the amount of ticket beetween that range.
 func (t Tickets) GetTicketsAmountByPeriod(p Period) int {
 	return t.GetTicketsAmountByTimeRange(p[0], p[1])
 }
