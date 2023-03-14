@@ -50,7 +50,7 @@ type Period [2]time.Time
 type Tickets []ticket
 
 // flightTimeLayout is the specific standard go layout format to 
-// parse a time in string into a valid ticket flightTime 
+// parse a time in string into a valid ticket flightTime.
 const flightTimeLayout = "15:04"
 
 // ParseToFlightTime parses the given time string to the default
@@ -58,7 +58,7 @@ const flightTimeLayout = "15:04"
 // string to a Time instance.
 // 
 // The given time string is parsed using "15:04" time layout.
-// Good time string should be "hours:minutes", example "10:30"
+// Good time string should be "hours:minutes", example "10:30".
 func ParseToFlightTime(t string) time.Time {
 	parsedTime, err := time.Parse(flightTimeLayout, strings.TrimSpace(t))
 	if err != nil {
@@ -70,19 +70,19 @@ func ParseToFlightTime(t string) time.Time {
 // Predifined `Periods`
 var (
 	// EearlyMorning represents a early morning `Period`, this is use to match
-	// every ticket which flightTime is in the range of `00:00` and `06:59`
+	// every ticket which flightTime is in the range of `00:00` and `06:59`.
 	EarlyMorning 	= Period{ParseToFlightTime("00:00"), ParseToFlightTime("06:59")}
 
 	// Morning represents a morning `Period`, this is use to match
-	// every ticket which flightTime is in the range of `07:00` and `012:59`
+	// every ticket which flightTime is in the range of `07:00` and `012:59`.
 	Morning 		= Period{ParseToFlightTime("07:00"), ParseToFlightTime("12:59")}
 
 	// Afternoon represents a afternoon `Period`, this is use to match
-	// every ticket which flightTime is in the range of `13:00` and `19:59`
+	// every ticket which flightTime is in the range of `13:00` and `19:59`.
 	Afternoon 		= Period{ParseToFlightTime("13:00"), ParseToFlightTime("19:59")}
 
 	// Evening represents a evening `Period`, this is use to match
-	// every ticket which flightTime is in the range of `20:00` and `23:59`
+	// every ticket which flightTime is in the range of `20:00` and `23:59`.
 	Evening 		= Period{ParseToFlightTime("20:00"), ParseToFlightTime("23:59")}
 )
 
