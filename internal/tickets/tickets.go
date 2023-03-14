@@ -67,6 +67,7 @@ func ParseToFlightTime(t string) time.Time {
 	return parsedTime
 }
 
+// Predifined `Periods`
 var (
 	EarlyMorning 	= Period{ParseToFlightTime("00:00"), ParseToFlightTime("06:59")}
 	Morning 		= Period{ParseToFlightTime("07:00"), ParseToFlightTime("12:59")}
@@ -106,7 +107,7 @@ func (t Tickets) GetTicketsAmountByTimeRange(startTime time.Time, endTime time.T
 	return amount
 }
 
-// GetTicketsAverageByDestinationAndTimeRange calculates the percentage of
+// GetTicketsPercentageByDestinationAndTimeRange calculates the percentage of
 // tickets going to an specific destination in a time range.
 // 
 // It returns the amount of tickets in a time range multiplied by 100 and
