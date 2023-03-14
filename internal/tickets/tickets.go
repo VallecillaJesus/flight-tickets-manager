@@ -87,11 +87,10 @@ func (t Tickets) GetTicketsAmountByDestination(destination string) int {
 	return amount
 }
 
-func (t Tickets) GetTicketsAverageByPeriods() int {
-	return	(t.GetTicketsAmountByPeriod(EarlyMorning) +
-			t.GetTicketsAmountByPeriod(Morning) +
-			t.GetTicketsAmountByPeriod(Afternoon) +
-			t.GetTicketsAmountByPeriod(Evening) ) / 4
+// GetTicketsAverageByPeriods returns the average number of tickets
+// taking into the accounts the predifined periods.
+func (t Tickets) GetTicketsAverageByPeriods() float64 {
+	return float64(len(t)) / float64(4)
 }
 
 // GetTicketsAmountByTimeRange counts and returns the number of
