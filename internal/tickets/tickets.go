@@ -14,7 +14,7 @@ import (
 // ticket represents every flight ticket found in the external
 // csv file that match with the struct model attributes order.
 //
-// Good csv file row content positions order example:
+// Good csv file row positions order example:
 //
 //	content: 1,Steve Musk,stevemusk@etsy.com,Colombia,20:44,550
 //	positions:
@@ -33,12 +33,24 @@ type ticket struct {
 	price       float64   // price is the ticket price.
 }
 
+// Period represent a time range, it is a time.Time two positions array
+// it means that the first position (index [0]) is the start time and 
+// the second position (index [1]) is the end time.
+//
+// This is used to set different periods of time, for example when 
+// refering to the morning period its time range could be defined 
+// stating at "06:00" and ending at "12:00".
+// 
+// Example:
+// 		morning := Period{time.Time, time.Time}
 type Period [2]time.Time
 
 // Tickets represents an slice containing all ticket structs.
 // This is use to manipulate and query tickets struct data.
 type Tickets []ticket
 
+// flightTimeLayout is the specific standard go layout format to 
+// parse a time in string into a valid ticket flightTime 
 const flightTimeLayout = "15:04"
 
 // ParseToFlightTime parses the given time string to the default
