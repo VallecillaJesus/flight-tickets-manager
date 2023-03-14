@@ -69,9 +69,21 @@ func ParseToFlightTime(t string) time.Time {
 
 // Predifined `Periods`
 var (
+	// EearlyMorning represents a early morning `Period`, this is use to match
+	// every ticket which flightTime is in the range of `00:00` and `06:59`
 	EarlyMorning 	= Period{ParseToFlightTime("00:00"), ParseToFlightTime("06:59")}
+
+	// Morning represents a morning `Period`, this is use to match
+	// every ticket which flightTime is in the range of `07:00` and `012:59`
 	Morning 		= Period{ParseToFlightTime("07:00"), ParseToFlightTime("12:59")}
+
+	// EearlyMorning represents a early morning `Period`, this is use to match
+	// every ticket which flightTime is in the range of `13:00` and `19:59`
 	Afternoon 		= Period{ParseToFlightTime("13:00"), ParseToFlightTime("19:59")}
+
+
+	// EearlyMorning represents a early morning `Period`, this is use to match
+	// every ticket which flightTime is in the range of `20:00` and `23:59`
 	Evening 		= Period{ParseToFlightTime("20:00"), ParseToFlightTime("23:59")}
 )
 
