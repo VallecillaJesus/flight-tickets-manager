@@ -141,7 +141,7 @@ func (t Tickets) GetTicketsAmountByPeriod(p Period) int {
 
 // ReadTickets reads the specified csv file path and transform
 // each of the rows.
-// Good csv file row content positions order example:
+// Good csv file row content order example:
 //
 //	content: 1,Steve Musk,stevemusk@etsy.com,Colombia,20:44,550
 //	positions:

@@ -1,10 +1,9 @@
 package main
 
 import (
-	"challenge/internal/tickets"
 	"fmt"
 	"time"
-
+	"challenge/internal/tickets"
 	"github.com/briandowns/spinner"
 	"github.com/manifoldco/promptui"
 )
