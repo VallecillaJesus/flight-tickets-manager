@@ -118,7 +118,6 @@ func main() {
 	// Amount of tickets by time range.
 	case 1: 
 		prompt = promptui.Prompt{
-			Default: "00:00",
 			Label: "Start time",
 			Validate: validateTimeString,
 		}
@@ -129,7 +128,6 @@ func main() {
 		}
 		
 		prompt = promptui.Prompt{
-			Default: "23:59",
 			Label: "End time",
 			Validate: validateTimeString,
 		}
