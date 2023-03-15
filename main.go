@@ -103,10 +103,10 @@ func main() {
 			panic(err)
 		}
 
-		startTime := tickets.ParseToFlightTime(st)
-		endTime := tickets.ParseToFlightTime(et)
-
-		result = fmt.Sprintf("The tickets amount is %d ", t.GetTicketsAmountByTimeRange(startTime, endTime))
+		result = fmt.Sprintf("The tickets amount is %d ", t.GetTicketsAmountByTimeRange(
+			tickets.ParseToFlightTime(st), 
+			tickets.ParseToFlightTime(et),
+		))
 	
 	// Amount of tickets by period.
 	case 2:
@@ -169,19 +169,11 @@ func main() {
 			panic(err)
 		}
 
-		startTime, err := time.Parse("15:04",st)
-
-		if err != nil {
-			panic(err)
-		}
-
-		endTime, err := time.Parse("15:04",et)
-
-		if err != nil {
-			panic(err)
-		}
-
-		result = fmt.Sprintf("The percentage of tickets is %.2f%%", t.GetTicketsPercentageByDestinationAndTimeRange(destination, startTime, endTime))
+		result = fmt.Sprintf("The percentage of tickets is %.2f%%", t.GetTicketsPercentageByDestinationAndTimeRange(
+			destination,
+			tickets.ParseToFlightTime(st), 
+			tickets.ParseToFlightTime(et),
+		))
 
 	// Average of tickets by periods.
 	case 4:
