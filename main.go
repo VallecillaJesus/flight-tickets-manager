@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"fmt"
 	"time"
 	"challenge/internal/tickets"
@@ -8,17 +9,30 @@ import (
 	"github.com/manifoldco/promptui"
 )
 
+
 func main() {
+
+	var result string
+
 	prompt := promptui.Prompt{
 		Label: "Path to the tickets csv file",
 		Default: "tickets.csv",
+		Validate: func(s string) error {
+			if  _, err := os.Open(s); err != nil {
+				return err
+			}
+			return nil
+		},
 	}
+
 	csvFilePath, err := prompt.Run()
 
 	if err != nil {
 		panic(err)
 	}
-	
+
+	prompt = promptui.Prompt{}
+
 	s := spinner.New(spinner.CharSets[14], 50 * time.Millisecond)
 	s.Color("yellow", "bold")
 	s.FinalMSG = "✔ File read successfully\n"
@@ -54,10 +68,11 @@ func main() {
 		panic(err)	
 	}
 
+	// Handle selected selector Item.
 	switch itemIndex {
+	// Amount of tickets by destination.
 	case 0: 
-
-		prompt = promptui.Prompt{
+		prompt := promptui.Prompt{
 			Label: "Destination",
 		}
 		destination, err := prompt.Run()
@@ -65,8 +80,10 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-
-		fmt.Println(t.GetTicketsAmountByDestination(destination))
+		
+		result = fmt.Sprintf("The tickets amount is %d ", t.GetTicketsAmountByDestination(destination))
+	
+	// Amount of tickets by time range.
 	case 1: 
 		prompt = promptui.Prompt{
 			Label: "Start time",
@@ -89,7 +106,9 @@ func main() {
 		startTime := tickets.ParseToFlightTime(st)
 		endTime := tickets.ParseToFlightTime(et)
 
-		fmt.Println(t.GetTicketsAmountByTimeRange(startTime, endTime))
+		result = fmt.Sprintf("The tickets amount is %d ", t.GetTicketsAmountByTimeRange(startTime, endTime))
+	
+	// Amount of tickets by period.
 	case 2:
 		selector = promptui.Select{
 			Label: "Select the period",
@@ -107,13 +126,21 @@ func main() {
 			panic(err)
 		}
 
+		msg := "The tickets amount is %d "
+		
+		// Handle selected `Period`.
 		switch itemIndex{
-			case 0: fmt.Println(t.GetTicketsAmountByPeriod(tickets.EarlyMorning))
-			case 1: fmt.Println(t.GetTicketsAmountByPeriod(tickets.Morning))
-			case 2: fmt.Println(t.GetTicketsAmountByPeriod(tickets.Afternoon))
-			case 3: fmt.Println(t.GetTicketsAmountByPeriod(tickets.Evening))
+			// Early morning.
+			case 0: result = fmt.Sprintf(msg, t.GetTicketsAmountByPeriod(tickets.EarlyMorning))
+			// Morning.
+			case 1: result = fmt.Sprintf(msg, t.GetTicketsAmountByPeriod(tickets.Morning))
+			// Afternoon.
+			case 2: result = fmt.Sprintf(msg, t.GetTicketsAmountByPeriod(tickets.Afternoon))
+			// Evening.
+			case 3: result = fmt.Sprintf(msg, t.GetTicketsAmountByPeriod(tickets.Evening))
 		}
 
+	// Percentage of tickets by destination and time range.
 	case 3: 
 		prompt = promptui.Prompt{
 			Label: "Destination",
@@ -154,9 +181,12 @@ func main() {
 			panic(err)
 		}
 
-		fmt.Println(t.GetTicketsPercentageByDestinationAndTimeRange(destination, startTime, endTime))
+		result = fmt.Sprintf("The percentage of tickets is %.2f%%", t.GetTicketsPercentageByDestinationAndTimeRange(destination, startTime, endTime))
 
+	// Average of tickets by periods.
 	case 4:
-		fmt.Println(t.GetTicketsAverageByPeriods())
+		result = fmt.Sprintf("The average of tickets is %f",t.GetTicketsAverageByPeriods())
 	}
+
+	fmt.Println("⭐️ " + result)
 }
