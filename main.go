@@ -7,7 +7,6 @@ import (
 	"os"
 	"strings"
 	"time"
-
 	"github.com/briandowns/spinner"
 	"github.com/manifoldco/promptui"
 )
