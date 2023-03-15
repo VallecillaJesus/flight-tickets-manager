@@ -82,6 +82,9 @@ func main() {
 
 	s.Stop()
 
+	// Empty line
+	fmt.Println()
+
 	selector := promptui.Select{
 		Label: "Select the information you need",
 		Items: []string{
@@ -98,6 +101,8 @@ func main() {
 	if err != nil {
 		panic(err)	
 	}
+
+	fmt.Println("\nFill the prompts, use `↩ enter` key to display more information.")
 
 	// Handle selected selector Item.
 	switch itemIndex {
@@ -217,5 +222,5 @@ func main() {
 		result = fmt.Sprintf("The average of tickets is %f",t.GetTicketsAverageByPeriods())
 	}
 
-	fmt.Println("⭐️ " + result)
+	fmt.Println("\n⭐️ " + result + "\n")
 }
