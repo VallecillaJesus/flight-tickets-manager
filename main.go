@@ -13,14 +13,14 @@ import (
 )
 
 var (
-	emptyPrompt = errors.New("The input can not be empty")
-	invalidTimeString = errors.New("The time format is not valid, valid format is '11:00'")
-	invalidCSVFile = errors.New("Not valid csv file found")
+	errEmptyPrompt = errors.New("input can not be empty")
+	errInvalidTimeString = errors.New("time format is not valid, valid format is '11:00'")
+	errInvalidCSVFile = errors.New("not valid csv file found")
 )
 
 func validateEmptyPrompt(s string) error {
 	if len(s) == 0 {
-		return emptyPrompt
+		return errEmptyPrompt
 	}
 	return nil
 }
@@ -28,19 +28,19 @@ func validateEmptyPrompt(s string) error {
 func validateTimeString(s string) error {
 	_, err := time.Parse(tickets.FlightTimeLayout, s)
 	if err != nil {
-		return invalidTimeString
+		return errInvalidTimeString
 	}
 	return nil
 }
 
 func validateCSVFile(s string) error {
 	if  _, err := os.Open(s); err != nil {
-		return invalidCSVFile
+		return errInvalidCSVFile
 	}
 
 	format := strings.Split(s, ".")[1]
 	if format != "csv" {
-		return invalidCSVFile
+		return errInvalidCSVFile
 	}
 
 	return nil
