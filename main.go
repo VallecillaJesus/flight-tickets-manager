@@ -86,6 +86,7 @@ func main() {
 	// Amount of tickets by time range.
 	case 1: 
 		prompt = promptui.Prompt{
+			Default: "00:00",
 			Label: "Start time",
 		}
 		st, err := prompt.Run()
@@ -95,6 +96,7 @@ func main() {
 		}
 		
 		prompt = promptui.Prompt{
+			Default: "23:59",
 			Label: "End time",
 		}
 		et, err := prompt.Run()
