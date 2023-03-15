@@ -49,9 +49,9 @@ type Period [2]time.Time
 // This is use to manipulate and query tickets struct data.
 type Tickets []ticket
 
-// flightTimeLayout is the specific standard go layout format to 
+// FlightTimeLayout is the specific standard go layout format to 
 // parse a time in string into a valid ticket flightTime.
-const flightTimeLayout = "15:04"
+const FlightTimeLayout = "15:04"
 
 // ParseToFlightTime parses the given time string to the default
 // flight accepted time layout, this is used to parse a time in 
@@ -60,7 +60,7 @@ const flightTimeLayout = "15:04"
 // The given time string is parsed using "15:04" time layout.
 // Good time string should be "hours:minutes", example "10:30".
 func ParseToFlightTime(t string) time.Time {
-	parsedTime, err := time.Parse(flightTimeLayout, strings.TrimSpace(t))
+	parsedTime, err := time.Parse(FlightTimeLayout, strings.TrimSpace(t))
 	if err != nil {
 		panic(err)
 	}

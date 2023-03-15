@@ -1,14 +1,50 @@
 package main
 
 import (
-	"os"
-	"fmt"
-	"time"
 	"challenge/internal/tickets"
+	"errors"
+	"fmt"
+	"os"
+	"strings"
+	"time"
+
 	"github.com/briandowns/spinner"
 	"github.com/manifoldco/promptui"
 )
 
+var (
+	emptyPrompt = errors.New("The input can not be empty")
+	invalidTimeString = errors.New("The time format is not valid, valid format is '11:00'")
+	invalidCSVFile = errors.New("Not valid csv file found")
+)
+
+func validateEmptyPrompt(s string) error {
+	if len(s) == 0 {
+		return emptyPrompt
+	}
+	return nil
+}
+
+func validateTimeString(s string) error {
+	_, err := time.Parse(tickets.FlightTimeLayout, s)
+	if err != nil {
+		return invalidTimeString
+	}
+	return nil
+}
+
+func validateCSVFile(s string) error {
+	if  _, err := os.Open(s); err != nil {
+		return invalidCSVFile
+	}
+
+	format := strings.Split(s, ".")[1]
+	if format != "csv" {
+		return invalidCSVFile
+	}
+
+	return nil
+}
 
 func main() {
 
@@ -17,12 +53,7 @@ func main() {
 	prompt := promptui.Prompt{
 		Label: "Path to the tickets csv file",
 		Default: "tickets.csv",
-		Validate: func(s string) error {
-			if  _, err := os.Open(s); err != nil {
-				return err
-			}
-			return nil
-		},
+		Validate: validateCSVFile,
 	}
 
 	csvFilePath, err := prompt.Run()
@@ -74,6 +105,7 @@ func main() {
 	case 0: 
 		prompt := promptui.Prompt{
 			Label: "Destination",
+			Validate: validateEmptyPrompt,
 		}
 		destination, err := prompt.Run()
 
@@ -88,6 +120,7 @@ func main() {
 		prompt = promptui.Prompt{
 			Default: "00:00",
 			Label: "Start time",
+			Validate: validateTimeString,
 		}
 		st, err := prompt.Run()
 
@@ -98,6 +131,7 @@ func main() {
 		prompt = promptui.Prompt{
 			Default: "23:59",
 			Label: "End time",
+			Validate: validateTimeString,
 		}
 		et, err := prompt.Run()
 		
@@ -146,6 +180,7 @@ func main() {
 	case 3: 
 		prompt = promptui.Prompt{
 			Label: "Destination",
+			Validate: validateEmptyPrompt,
 		}
 		destination, err := prompt.Run()
 
@@ -155,6 +190,7 @@ func main() {
 
 		prompt = promptui.Prompt{
 			Label: "Start time",
+			Validate: validateTimeString,
 		}
 		st, err := prompt.Run()
 
@@ -164,6 +200,7 @@ func main() {
 
 		prompt = promptui.Prompt{
 			Label: "End time",
+			Validate: validateTimeString,
 		}
 		et, err := prompt.Run()
 
