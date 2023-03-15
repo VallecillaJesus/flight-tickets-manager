@@ -219,7 +219,7 @@ func main() {
 
 	// Average of tickets by periods.
 	case 4:
-		result = fmt.Sprintf("The average of tickets is %f",t.GetTicketsAverageByPeriods())
+		result = fmt.Sprintf("The average of tickets is %.2f",t.GetTicketsAverageByPeriods())
 	}
 
 	fmt.Println("\n⭐️ " + result + "\n")
