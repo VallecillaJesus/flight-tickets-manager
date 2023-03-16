@@ -23,7 +23,6 @@ func TestParseToFlightTimeInvalidFormat(t *testing.T) {
 }
 
 func TestParseToFlightTime(t *testing.T) {
-
 	parsedTime := ParseToFlightTime("00:00")
 	assert.NotEmpty(t, parsedTime, "The parsed time returned is empty")
 
@@ -31,4 +30,14 @@ func TestParseToFlightTime(t *testing.T) {
 	assert.NotEmpty(t, parsedTime, "The parsed time returned is empty")
 }
 
+func TestGetTicketsAmountByDestination(t *testing.T) {
+	tickets, _ := ReadTickets("mock.csv")
+	amount := tickets.GetTicketsAmountByDestination("Colombia")
+	assert.EqualValues(t, 18, amount)
 
+	amount = tickets.GetTicketsAmountByDestination("Argentina")
+	assert.EqualValues(t, 15, amount)
+
+	amount = tickets.GetTicketsAmountByDestination("Neverland")
+	assert.EqualValues(t, 0, amount)
+}
