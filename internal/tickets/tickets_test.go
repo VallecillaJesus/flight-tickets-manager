@@ -32,6 +32,7 @@ func TestParseToFlightTime(t *testing.T) {
 
 func TestGetTicketsAmountByDestination(t *testing.T) {
 	tickets, _ := ReadTickets("mock.csv")
+
 	amount := tickets.GetTicketsAmountByDestination("Colombia")
 	assert.EqualValues(t, 18, amount)
 
@@ -40,4 +41,11 @@ func TestGetTicketsAmountByDestination(t *testing.T) {
 
 	amount = tickets.GetTicketsAmountByDestination("Neverland")
 	assert.EqualValues(t, 0, amount)
+}
+
+func TestGetTicketsAverageByPeriods(t *testing.T) {
+	tickets, _ := ReadTickets("mock.csv")
+
+	average := tickets.GetTicketsAverageByPeriods()
+	assert.EqualValues(t, 250.0, average)
 }
