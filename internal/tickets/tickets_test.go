@@ -49,3 +49,22 @@ func TestGetTicketsAverageByPeriods(t *testing.T) {
 	average := tickets.GetTicketsAverageByPeriods()
 	assert.EqualValues(t, 250.0, average)
 }
+
+func TestGetTicketsAmountByPeriod(t *testing.T) {
+	tickets, _ := ReadTickets("mock.csv")
+
+	average := tickets.GetTicketsAmountByPeriod(EarlyMorning)
+	assert.EqualValues(t, 303, average)
+
+
+	average = tickets.GetTicketsAmountByPeriod(Morning)
+	assert.EqualValues(t, 255, average)
+
+
+	average = tickets.GetTicketsAmountByPeriod(Afternoon)
+	assert.EqualValues(t, 289, average)
+
+
+	average = tickets.GetTicketsAmountByPeriod(Evening)
+	assert.EqualValues(t, 151, average)
+}
