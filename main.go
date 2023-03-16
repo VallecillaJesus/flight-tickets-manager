@@ -94,7 +94,7 @@ func main() {
 			"Average of tickets by periods",
 		},
 	}
-
+	
 	itemIndex, _, err := selector.Run()
 
 	if err != nil {
