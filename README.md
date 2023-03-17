@@ -1,6 +1,6 @@
 <h1 align="center">Flight Tickets Manager</h1>
 
-![Build status](https://github.com/VallecillaJesus/flight-tickets-manager/actions/workflows/ci.yaml/badge.svg)
+![Build status](https://github.com/VallecillaJesus/flight-tickets-manager/actions/workflows/build.yaml/badge.svg)
 
 Simple Go Command Line application
 
