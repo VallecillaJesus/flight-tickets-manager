@@ -5,7 +5,9 @@
 
 Simple Go Command Line application
 
-### External modules
 
-* #### [promptui](https://github.com/manifoldco/promptui)
-* #### [testify](https://github.com/stretchr/testify)
+<hr>
+
+### External modules
+#### [promptui](https://github.com/manifoldco/promptui)
+#### [testify](https://github.com/stretchr/testify)
