@@ -12,7 +12,6 @@ func TestReadTickets(t *testing.T) {
 	assert.EqualValues(t, 1000, len(tickets))
 }
 
-
 func TestParseToFlightTimeInvalidFormat(t *testing.T) {
 	defer func() {
 		r := recover()
@@ -67,4 +66,22 @@ func TestGetTicketsAmountByPeriod(t *testing.T) {
 
 	average = tickets.GetTicketsAmountByPeriod(Evening)
 	assert.EqualValues(t, 151, average)
+}
+
+func TestGetTicketsAmountByTimeRange(t *testing.T) {
+	tickets, _ := ReadTickets("mock.csv")
+
+	amount := tickets.GetTicketsAmountByTimeRange(ParseToFlightTime("10:00"), ParseToFlightTime("12:00"))
+	assert.EqualValues(t, 81, amount)
+
+}
+
+func TestGetTicketsPercentageByDestinationAndTimeRange(t *testing.T) {
+	tickets, _ := ReadTickets("mock.csv")
+	amount := tickets.GetTicketsPercentageByDestinationAndTimeRange(
+		"Colombia",
+		ParseToFlightTime("00:00"),
+		ParseToFlightTime("23:00"),
+	)
+	assert.EqualValues(t, 1.8769551616266944, amount)
 }
